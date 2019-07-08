@@ -51,21 +51,6 @@ class NFCReadData {
   }
 }
 
-class Messages {
-  final List<NFCReadData> records;
-
-  Messages({this.records});
-
-  String get data {
-    for (var record in records) {
-      if (record.data != null) {
-        return record.data;
-      }
-    }
-    return null;
-  }
-}
-
 class NfcReader {
   static final MethodChannel _channel = const MethodChannel('nfc_reader');
 
@@ -74,7 +59,9 @@ class NfcReader {
 
   static Stream<dynamic> _tagStream;
 
-  static Stream<NFCReadData> readNfc () {
+  static Stream<NFCReadData> readNfc({
+    bool isOnce = false,
+  }) {
     if (_tagStream == null) {
       _tagStream = _eventChannel.receiveBroadcastStream().map((tag) {
         return NFCReadData.fromMap(tag);
@@ -83,7 +70,7 @@ class NfcReader {
 
     StreamController<NFCReadData> controller = StreamController();
 
-    final stream = _tagStream;
+    final stream = isOnce ? _tagStream.take(1) : _tagStream;
 
     stream.listen((message) {
       controller.add(message);
@@ -95,6 +82,5 @@ class NfcReader {
     _channel.invokeMethod('readNFC');
 
     return controller.stream;
-
   }
 }

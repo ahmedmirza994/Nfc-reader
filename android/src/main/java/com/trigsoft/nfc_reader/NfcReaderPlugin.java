@@ -135,7 +135,7 @@ public class NfcReaderPlugin implements MethodCallHandler, StreamHandler, NfcAda
                 ndef.close();
             } catch (IOException e) {
                 Map<String, Object> details = new HashMap<>();
-                details.put("fatal", false);
+                details.put("fatal", true);
                 eventError("IOError", e.getMessage(), details);
             }
         } catch (IOException e) {
