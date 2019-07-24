@@ -1,5 +1,5 @@
 name: nfc_reader
-description: A nfc reader plugin for Android.
+description: A nfc reader plugin for Android. Currently it only supports reading NDEF formatted tags.
 version: 1.0.0
 author: Ahmed Mirza <ahmed.mirza994>
 homepage: https://github.com/ahmedmirza994/Nfc-reader
